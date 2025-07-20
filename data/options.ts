@@ -67,17 +67,17 @@ export const optionsByGenre: Record<
     { label: "Someone Like You", imagePath: "/images/music/music10.jpg" },
     {label: "Lose Yourself", imagePath: "/images/music/music11.jpg" },
   ],
-  vgame: [
-    { label: "Call of Duty", imagePath: "/images/vgame/vgame1.jpg" },
-    { label: "Valorant", imagePath: "/images/vgame/vgame2.jpg" },
-    { label: "Fortnite", imagePath: "/images/vgame/vgame3.jpg" },
-    { label: "Minecraft", imagePath: "/images/vgame/vgame4.jpg" },
-    { label: "GTA V", imagePath: "/images/vgame/vgame5.jpg" },
-    { label: "God of War", imagePath: "/images/vgame/vgame6.jpg" },
-    { label: "The Last of Us", imagePath: "/images/vgame/vgame7.jpg" },
-    { label: "Red Dead Redemption", imagePath: "/images/vgame/vgame8.jpg" },
-    { label: "Assassin's Creed", imagePath: "/images/vgame/vgame9.jpg" },
-    { label: "League of Legends", imagePath: "/images/vgame/vgame10.jpg" },
-    { label: "Counter-Strike", imagePath: "/images/vgame/vgame11.jpg",}
+  game: [
+    { label: "Call of Duty", imagePath: "/images/game/game1.jpg" },
+    { label: "Valorant", imagePath: "/images/game/game2.jpg" },
+    { label: "Fortnite", imagePath: "/images/game/game3.jpg" },
+    { label: "Minecraft", imagePath: "/images/game/game4.jpg" },
+    { label: "GTA V", imagePath: "/images/game/game5.jpg" },
+    { label: "God of War", imagePath: "/images/game/game6.jpg" },
+    { label: "The Last of Us", imagePath: "/images/game/game7.jpg" },
+    { label: "Red Dead Redemption", imagePath: "/images/game/game8.jpg" },
+    { label: "Assassin's Creed", imagePath: "/images/game/game9.jpg" },
+    { label: "League of Legends", imagePath: "/images/game/game10.jpg" },
+    { label: "Counter-Strike", imagePath: "/images/game/game11.jpg",}
   ],
 }

@@ -4,5 +4,5 @@ export const genres = [
   { id: 3, name: "Actor", image: "/actor.jpg" },
   { id: 4, name: "Book", image: "/book.jpg" },
   { id: 5, name: "Music" , image: "/music.jpg"},
-  { id: 6, name: "vgame", image: "/vgame.jpg" },
+  { id: 6, name: "Game", image: "/game.jpg" },
 ]
