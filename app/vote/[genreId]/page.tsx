@@ -20,6 +20,9 @@ export default function GenreVotePage({ params }: Props) {
   const [index, setIndex] = useState(2);
   const [left, setLeft] = useState(allOptions[0]);
   const [right, setRight] = useState(allOptions[1]);
+  const [animationSide, setAnimationSide] = useState<"left" | "right" | null>(null);
+  const [animating, setAnimating] = useState(false);
+
 
   if (!genre) {
     notFound();
@@ -30,26 +33,27 @@ export default function GenreVotePage({ params }: Props) {
   }
 
   const handleVote = (choice: "left" | "right") => {
-    setTimeout(() => {
-      if (round >= allOptions.length - 1) {
-        const winnerLabel = choice === "left" ? left.label : right.label;
-        const winnerImage = choice === "left" ? left.imagePath : right.imagePath;
+    if (animating) return; // Prevent multiple clicks during animation
+    setAnimationSide(choice === "left" ? "right" : "left");
+    setAnimating(true);
+    if (round >= allOptions.length - 1) {
+      const winnerLabel = choice === "left" ? left.label : right.label;
+      const winnerImage = choice === "left" ? left.imagePath : right.imagePath;
 
-        router.push(`/result?winner=${encodeURIComponent(winnerLabel)}&image=${encodeURIComponent(winnerImage)}&genre=${encodeURIComponent(genre.name)}`);
+      router.push(`/result?winner=${encodeURIComponent(winnerLabel)}&image=${encodeURIComponent(winnerImage)}&genre=${encodeURIComponent(genre.name)}`);
 
-        return;
-      }
+      return;
+    }
 
-      const next = allOptions[index];
-      if (choice === "left") {
-        setRight(next);
-      } else {
-        setLeft(next);
-      }
+    const next = allOptions[index];
+    if (choice === "left") {
+      setRight(next);
+    } else {
+      setLeft(next);
+    }
 
-      setIndex(prev => prev + 1);
-      setRound(prev => prev + 1);
-    }, 400);
+    setIndex(prev => prev + 1);
+    setRound(prev => prev + 1);
   };
 
   return (
@@ -64,8 +68,11 @@ export default function GenreVotePage({ params }: Props) {
 
         {/* Left Option */}
         <button
-          onClick={() => handleVote("left")}
-          className="w-[200px] h-[220px] bg-gray-100 rounded-xl shadow-md overflow-hidden hover:scale-105 transition-transform duration-200 relative"
+            onClick={() => handleVote("left")}
+            className={`w-[200px] h-[220px] bg-gray-100 rounded-xl shadow-md overflow-hidden hover:scale-105 transition-transform duration-200 relative ${
+              animationSide === "right" ? "swipe-out-right" : ""
+            }`}
+            disabled={animating}
         >
           <img src={left.imagePath} alt={left.label} className="object-cover h-full w-full border-2 border-white rounded-xl shadow-2xl" />
           <div className="absolute bottom-0 w-full bg-black/40 text-white text-sm text-center py-1 rounded-b-xl backdrop-blur-sm">
@@ -92,8 +99,11 @@ export default function GenreVotePage({ params }: Props) {
 
         {/* Right Option */}
         <button
-          onClick={() => handleVote("right")}
-          className="w-[200px] h-[220px] bg-gray-100 rounded-xl shadow-md overflow-hidden hover:scale-105 transition-transform duration-200 relative"
+            onClick={() => handleVote("right")}
+            className={`w-[200px] h-[220px] bg-gray-100 rounded-xl shadow-md overflow-hidden hover:scale-105 transition-transform duration-200 relative ${
+              animationSide === "left" ? "swipe-out-left" : ""
+            }`}
+            disabled={animating}
         >
           <img src={right.imagePath} alt={right.label} className="object-cover h-full w-full border-2 border-white rounded-xl shadow-md" />
           <div className="absolute bottom-0 w-full bg-black/40 text-white text-sm text-center py-1 rounded-b-xl shadow-black">

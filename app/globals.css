@@ -24,3 +24,13 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+/* Swipe animation classes */
+.swipe-card {
+  transition: transform 0.3s ease-in-out;
+}
+.swipe-left {
+  transform: translateX(-100%);
+}
+.swipe-right {
+  transform: translateX(100%);
+}

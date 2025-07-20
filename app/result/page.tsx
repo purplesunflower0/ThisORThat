@@ -1,9 +1,8 @@
 'use client';
-import confetti from 'canvas-confetti';
+import confetti, { Options } from 'canvas-confetti';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { useWindowSize } from 'react-use'
 
 export default function ResultPage() {
   const searchParams = useSearchParams();
@@ -29,10 +28,9 @@ export default function ResultPage() {
     fireConfetti();
   }, [searchParams]);
   const fireConfetti = () => {
-    const duration = 1000;
     const defaults = { origin: { y: 0.6 } };
 
-    function fire(particleRatio: number, opts: any) {
+    function fire(particleRatio: number, opts: Options) {
       confetti(Object.assign({}, defaults, opts, {
         particleCount: Math.floor(200 * particleRatio),
       }));
