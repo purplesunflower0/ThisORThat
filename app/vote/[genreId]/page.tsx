@@ -1,6 +1,6 @@
 'use client';
 import Image from 'next/image'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { notFound, useRouter } from "next/navigation";
 import { genres } from "@/data/genres";
 import { optionsByGenre } from "@/data/options";
@@ -13,7 +13,7 @@ type Props = {
 };
 
 export default function GenreVotePage({ params }: Props) {
-  const { genreId } = use(params); // unwrapped as required
+  const { genreId } = use(params);
   const router = useRouter();
   const genre = genres.find(g => g.id.toString() === genreId);
   const allOptions = genre ? optionsByGenre[genre.name.toLowerCase()] : [];
@@ -24,6 +24,14 @@ export default function GenreVotePage({ params }: Props) {
   const [right, setRight] = useState(allOptions[1]);
   const [animationSide, setAnimationSide] = useState<"left" | "right" | null>(null);
   const [animating, setAnimating] = useState(false);
+
+  useEffect(() => {
+    allOptions.forEach(option => {
+      const img = new window.Image();
+      img.src = option.imagePath;
+    });
+  }, []);
+
 
   if (!genre) {
     notFound();
@@ -42,7 +50,6 @@ export default function GenreVotePage({ params }: Props) {
       if (round >= allOptions.length - 1) {
         const winnerLabel = choice === "left" ? left.label : right.label;
         const winnerImage = choice === "left" ? left.imagePath : right.imagePath;
-
         router.push(`/result?winner=${encodeURIComponent(winnerLabel)}&image=${encodeURIComponent(winnerImage)}&genre=${encodeURIComponent(genre.name)}`);
         return;
       }
@@ -69,26 +76,32 @@ export default function GenreVotePage({ params }: Props) {
 
       <div className="flex flex-col md:flex-row items-center justify-center gap-10 w-full mt-10">
 
+        {/* Left Option */}
         <button
           onClick={() => handleVote("left")}
-          className={`w-[200px] h-[220px] bg-gray-100 rounded-xl shadow-md overflow-hidden hover:scale-105 transition-transform duration-200 relative ${
-            animationSide === "left" ? "swipe-out-left" : ""
-          }`}
+          className={`w-[200px] h-[220px] bg-gray-100 rounded-xl shadow-md overflow-hidden hover:scale-105 transition-transform duration-200 relative ${animationSide === "left" ? "swipe-out-left" : ""}`}
           disabled={animating}
         >
-          <Image src={left.imagePath} alt={left.label} className="object-cover h-full w-full border-2 border-white rounded-xl shadow-2xl" />
+          <Image
+            src={left.imagePath}
+            alt={left.label}
+            width={200}
+            height={220}
+            unoptimized
+            className="object-cover h-full w-full border-2 border-white rounded-xl shadow-2xl"
+          />
           <div className="absolute bottom-0 w-full bg-black/40 text-white text-sm text-center py-1 rounded-b-xl backdrop-blur-sm">
             {left.label}
           </div>
         </button>
 
+        {/* VS Divider */}
         <div className="flex items-center justify-center w-full md:w-auto">
           <div className="flex md:hidden items-center w-full gap-2 text-gray-500 text-lg font-semibold">
             <div className="flex-1 border-t border-gray-400" />
             <div className="px-2">VS</div>
             <div className="flex-1 border-t border-gray-400" />
           </div>
-
           <div className="hidden md:flex flex-col items-center px-4 text-gray-500 text-lg font-semibold">
             <div className="h-6 border-l border-gray-400" />
             <div>VS</div>
@@ -96,14 +109,20 @@ export default function GenreVotePage({ params }: Props) {
           </div>
         </div>
 
+        {/* Right Option */}
         <button
           onClick={() => handleVote("right")}
-          className={`w-[200px] h-[220px] bg-gray-100 rounded-xl shadow-md overflow-hidden hover:scale-105 transition-transform duration-200 relative ${
-            animationSide === "right" ? "swipe-out-right" : ""
-          }`}
+          className={`w-[200px] h-[220px] bg-gray-100 rounded-xl shadow-md overflow-hidden hover:scale-105 transition-transform duration-200 relative ${animationSide === "right" ? "swipe-out-right" : ""}`}
           disabled={animating}
         >
-          <Image src={right.imagePath} alt={right.label} className="object-cover h-full w-full border-2 border-white rounded-xl shadow-md" />
+          <Image
+            src={right.imagePath}
+            alt={right.label}
+            width={200}
+            height={220}
+            unoptimized
+            className="object-cover h-full w-full border-2 border-white rounded-xl shadow-md"
+          />
           <div className="absolute bottom-0 w-full bg-black/40 text-white text-sm text-center py-1 rounded-b-xl shadow-black">
             {right.label}
           </div>
