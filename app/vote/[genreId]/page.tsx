@@ -14,22 +14,20 @@ type Props = {
 export default function GenreVotePage({ params }: Props) {
   const router = useRouter();
   const genre = genres.find(g => g.id.toString() === params.genreId);
-
-  if (!genre) {
-    notFound();
-  }
-
-  const allOptions = optionsByGenre[genre.name.toLowerCase()];
-  if (!allOptions || allOptions.length < 2) {
-    return <div>Not enough options to vote in this genre.</div>;
-  }
+  const allOptions = genre ? optionsByGenre[genre.name.toLowerCase()] : [];
 
   const [round, setRound] = useState(1);
   const [index, setIndex] = useState(2);
   const [left, setLeft] = useState(allOptions[0]);
   const [right, setRight] = useState(allOptions[1]);
 
-  
+  if (!genre) {
+    notFound();
+  }
+
+  if (!allOptions || allOptions.length < 2) {
+    return <div>Not enough options to vote in this genre.</div>;
+  }
 
   const handleVote = (choice: "left" | "right") => {
     setTimeout(() => {
