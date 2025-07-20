@@ -1,18 +1,19 @@
 "use client";
-import { useState } from "react";
+import { useState, use } from "react";
 import { notFound, useRouter } from "next/navigation";
 import { genres } from "@/data/genres";
 import { optionsByGenre } from "@/data/options";
 
 type Props = {
-  params: {
+  params: Promise<{
     genreId: string;
-  };
+  }>;
 };
 
 export default function GenreVotePage({ params }: Props) {
+  const { genreId } = use(params);
   const router = useRouter();
-  const genre = genres.find(g => g.id.toString() === params.genreId);
+  const genre = genres.find(g => g.id.toString() === genreId);
   const allOptions = genre ? optionsByGenre[genre.name.toLowerCase()] : [];
 
   const [round, setRound] = useState(1);
@@ -21,7 +22,6 @@ export default function GenreVotePage({ params }: Props) {
   const [right, setRight] = useState(allOptions[1]);
   const [animationSide, setAnimationSide] = useState<"left" | "right" | null>(null);
   const [animating, setAnimating] = useState(false);
-
 
   if (!genre) {
     notFound();
@@ -64,8 +64,6 @@ export default function GenreVotePage({ params }: Props) {
     <h1 className="text-1xl md:text-1xl font-bold text-center bg-white  bg-clip-text text-transparent mb-8 tracking-wide" style={{fontFamily:'Satisfy, monospace'}}>
       Which one do you like more?
     </h1>
-
-
 
       <div className="flex flex-col md:flex-row items-center justify-center gap-10 w-full mt-10">
 
