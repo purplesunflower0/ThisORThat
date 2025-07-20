@@ -1,10 +1,10 @@
 'use client';
+import { Suspense, useEffect, useState } from 'react';
 import confetti, { Options } from 'canvas-confetti';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
-export default function ResultPage() {
+function ResultContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -17,9 +17,7 @@ export default function ResultPage() {
     const genreParam = searchParams.get('genre');
     const imageParam = searchParams.get('image');
 
-    if (!winnerParam || !genreParam || !imageParam) {
-      return;
-    }
+    if (!winnerParam || !genreParam || !imageParam) return;
 
     setWinner(winnerParam);
     setGenre(genreParam);
@@ -27,6 +25,7 @@ export default function ResultPage() {
 
     fireConfetti();
   }, [searchParams]);
+
   const fireConfetti = () => {
     const defaults = { origin: { y: 0.6 } };
 
@@ -71,7 +70,7 @@ export default function ResultPage() {
           height={300}
           className="rounded-lg object-cover mb-4 border-2 border-black"
         />
-        <h2 className="text-2xl text-black text-center neon-text" style={{fontFamily:'Lobster, Cursive'}}>{winner}</h2>
+        <h2 className="text-2xl text-black text-center neon-text" style={{ fontFamily: 'Lobster, Cursive' }}>{winner}</h2>
       </div>
 
       <button
@@ -81,5 +80,13 @@ export default function ResultPage() {
         Vote Again
       </button>
     </div>
+  );
+}
+
+export default function ResultPage() {
+  return (
+    <Suspense fallback={<div className="text-center mt-20">Loading result...</div>}>
+      <ResultContent />
+    </Suspense>
   );
 }
