@@ -1,5 +1,4 @@
 "use client";
-import Confetti from 'react-confetti'
 import { useState } from "react";
 import { notFound, useRouter } from "next/navigation";
 import { genres } from "@/data/genres";
@@ -36,24 +35,28 @@ export default function GenreVotePage({ params }: Props) {
     if (animating) return; // Prevent multiple clicks during animation
     setAnimationSide(choice === "left" ? "right" : "left");
     setAnimating(true);
-    if (round >= allOptions.length - 1) {
-      const winnerLabel = choice === "left" ? left.label : right.label;
-      const winnerImage = choice === "left" ? left.imagePath : right.imagePath;
+    setTimeout(() => {
+      if (round >= allOptions.length - 1) {
+        const winnerLabel = choice === "left" ? left.label : right.label;
+        const winnerImage = choice === "left" ? left.imagePath : right.imagePath;
 
-      router.push(`/result?winner=${encodeURIComponent(winnerLabel)}&image=${encodeURIComponent(winnerImage)}&genre=${encodeURIComponent(genre.name)}`);
+        router.push(`/result?winner=${encodeURIComponent(winnerLabel)}&image=${encodeURIComponent(winnerImage)}&genre=${encodeURIComponent(genre.name)}`);
 
-      return;
-    }
+        return;
+      }
 
-    const next = allOptions[index];
-    if (choice === "left") {
-      setRight(next);
-    } else {
-      setLeft(next);
-    }
+      const next = allOptions[index];
+      if (choice === "left") {
+        setRight(next);
+      } else {
+        setLeft(next);
+      }
 
-    setIndex(prev => prev + 1);
-    setRound(prev => prev + 1);
+      setIndex(prev => prev + 1);
+      setRound(prev => prev + 1);
+      setAnimationSide(null);
+      setAnimating(false);
+    }, 300);
   };
 
   return (
@@ -70,7 +73,7 @@ export default function GenreVotePage({ params }: Props) {
         <button
             onClick={() => handleVote("left")}
             className={`w-[200px] h-[220px] bg-gray-100 rounded-xl shadow-md overflow-hidden hover:scale-105 transition-transform duration-200 relative ${
-              animationSide === "right" ? "swipe-out-right" : ""
+              animationSide === "left" ? "swipe-out-left" : ""
             }`}
             disabled={animating}
         >
@@ -101,7 +104,7 @@ export default function GenreVotePage({ params }: Props) {
         <button
             onClick={() => handleVote("right")}
             className={`w-[200px] h-[220px] bg-gray-100 rounded-xl shadow-md overflow-hidden hover:scale-105 transition-transform duration-200 relative ${
-              animationSide === "left" ? "swipe-out-left" : ""
+              animationSide === "right" ? "swipe-out-right" : ""
             }`}
             disabled={animating}
         >
