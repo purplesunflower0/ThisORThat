@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image'
 import { useState } from "react";
 import { notFound, useRouter } from "next/navigation";
 import { genres } from "@/data/genres";
@@ -75,7 +76,7 @@ export default function GenreVotePage({ params }: Props) {
           }`}
           disabled={animating}
         >
-          <img src={left.imagePath} alt={left.label} className="object-cover h-full w-full border-2 border-white rounded-xl shadow-2xl" />
+          <Image src={left.imagePath} alt={left.label} className="object-cover h-full w-full border-2 border-white rounded-xl shadow-2xl" />
           <div className="absolute bottom-0 w-full bg-black/40 text-white text-sm text-center py-1 rounded-b-xl backdrop-blur-sm">
             {left.label}
           </div>
@@ -102,7 +103,7 @@ export default function GenreVotePage({ params }: Props) {
           }`}
           disabled={animating}
         >
-          <img src={right.imagePath} alt={right.label} className="object-cover h-full w-full border-2 border-white rounded-xl shadow-md" />
+          <Image src={right.imagePath} alt={right.label} className="object-cover h-full w-full border-2 border-white rounded-xl shadow-md" />
           <div className="absolute bottom-0 w-full bg-black/40 text-white text-sm text-center py-1 rounded-b-xl shadow-black">
             {right.label}
           </div>
